@@ -24,6 +24,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import { WeatherCurrentComponent } from './weather/weather-current/weather-current.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import {MatIconModule} from '@angular/material/icon';
     HeaderComponent,
     FooterComponent,
     WeatherComponent,
-    DashboardComponent
+    DashboardComponent,
+    WeatherCurrentComponent
   ],
   imports: [
     BrowserModule,

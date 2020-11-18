@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {BackendService} from '../backend.service';
 import {GeocodeService} from './geocode.service';
 
@@ -8,6 +7,7 @@ import View from 'ol/View';
 import OSM from 'ol/source/OSM';
 import * as olProj from 'ol/proj';
 import TileLayer from 'ol/layer/Tile';
+import {WeatherCurrentComponent} from './weather-current/weather-current.component';
 
 @Component({
   selector: 'app-weather',
@@ -16,26 +16,25 @@ import TileLayer from 'ol/layer/Tile';
 })
 export class WeatherComponent implements OnInit {
 
-  date = new FormControl(new Date());
   cityName: any;
+  cityAlias: any;
   geocodeAPI: any;
   geocodeResult: any;
   configCityName: any;
+  configCityAlias: any;
   configGeocodeAPI: any;
   location: any;
   map: any;
-  weatherReport: any;
+
+  @ViewChild(WeatherCurrentComponent)
+  private weatherCurrent: WeatherCurrentComponent;
 
   constructor(private backend: BackendService, private geocode: GeocodeService) { }
 
   ngOnInit(): void {
     this.backend.getWeatherConfig().subscribe(json => {
       this.parseWeatherConfig(json);
-    });
-    this.backend.getWeather().subscribe(json => {
-      this.parseWeather(json);
-    });
-    this.map = new Map({
+      this.map = new Map({
       controls: [],
       target: 'cityMap',
       layers: [
@@ -48,6 +47,9 @@ export class WeatherComponent implements OnInit {
         zoom: 1
       })
     });
+    });
+    this.weatherCurrent.ngOnInit();
+
   }
 
   parseWeatherConfig(json): void {
@@ -55,13 +57,10 @@ export class WeatherComponent implements OnInit {
     this.configGeocodeAPI = this.geocodeAPI;
     this.geocode.setApi(this.geocodeAPI);
     this.cityName = json.location;
+    this.cityAlias = json.cityAlias;
     this.configCityName = this.cityName;
+    this.configCityAlias = this.cityAlias;
     this.searchCity();
-  }
-
-  parseWeather(json): void {
-      this.weatherReport = json;
-      console.log(json);
   }
 
   searchCity(): void {
@@ -97,16 +96,25 @@ export class WeatherComponent implements OnInit {
       ]).subscribe(json =>
     {
       this.parseWeatherConfig(json);
-
-      this.backend.getWeather().subscribe(reportJson => {
-        this.parseWeather(reportJson);
-      });
+      this.weatherCurrent.ngOnInit();
     });
-
   }
 
   saveGeocodeApi(): void {
-    this.backend.setWeatherParameter('geocodeApi', this.geocodeAPI).subscribe(json =>
+    this.backend.setWeatherParameters(
+      [
+        {parameter: 'geocodeApi', value: this.geocodeAPI}
+      ]).subscribe(json =>
+    {
+      this.parseWeatherConfig(json);
+    });
+  }
+
+  saveAlias(): void {
+    this.backend.setWeatherParameters(
+      [
+        {parameter: 'cityAlias', value: this.cityAlias}
+      ]).subscribe(json =>
     {
       this.parseWeatherConfig(json);
     });

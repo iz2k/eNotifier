@@ -2,7 +2,6 @@
 import argparse
 import time
 
-from eNotifierBackend.clock.clockThread import clockThread
 from eNotifierBackend.osInfo.osInfoThread import osInfoThread
 from eNotifierBackend.weatherStation.weatherStationThread import WeatherStationThread
 from eNotifierBackend.webServer.webServer import webServerThread

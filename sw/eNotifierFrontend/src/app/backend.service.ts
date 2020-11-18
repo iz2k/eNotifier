@@ -54,10 +54,6 @@ export class BackendService extends Socket {
     return this.http.get<any>(this.urlEndPoint + '/get-weather');
   }
 
-  setWeatherParameter(parameter, value): Observable<any> {
-    return this.http.get<any>(this.urlEndPoint + '/set-weather-config?' + parameter + '=' + value);
-  }
-
   setWeatherParameters(arglist): Observable<any> {
     let paramsString = '';
     arglist.forEach(arg => paramsString = paramsString + arg.parameter.toString() + '=' +  arg.value.toString() + '&');

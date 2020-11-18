@@ -38,6 +38,7 @@ class WeatherStation:
             'openWeatherApi': '***REMOVED***',
             'geocodeApi': '',
             'location': '',
+            'cityAlias': '',
             'longitude': 0,
             'latitude': 0
                        }

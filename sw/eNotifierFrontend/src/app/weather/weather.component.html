@@ -24,11 +24,20 @@
             <br>Country: <b>{{location.properties.country}}</b>
             <br>Continent: <b>{{location.properties.continent}}</b>
           </div>
-          <div class="pt-3" align="center" *ngIf="location.properties.name != configCityName">
+          <div class="pt-3" align="center" *ngIf="(location.properties.name != configCityName)">
             <button mat-mini-fab color="primary" (click)="saveLocation()">
               <mat-icon>publish</mat-icon>
             </button><br>Apply
           </div>
+        </div>
+        <div class="pt-5 mx-5" *ngIf="cityAlias != undefined">
+          <mat-form-field>
+              <mat-label>City Alias</mat-label>
+              <input matInput placeholder="City Alias" [(ngModel)]="cityAlias">
+          </mat-form-field>
+          <button mat-mini-fab color="primary" (click)="saveAlias()" *ngIf="cityAlias != configCityAlias">
+            <mat-icon>publish</mat-icon>
+          </button>
         </div>
       </div>
       <div class="column w60">
@@ -52,7 +61,7 @@
     </div>
 
     <div class="card-body w100">
-      {{weatherReport.current | json}}
+      <app-weather-current></app-weather-current>
     </div>
   </div>
 
