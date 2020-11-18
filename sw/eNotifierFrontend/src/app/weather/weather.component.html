@@ -1,0 +1,59 @@
+<div class="container w100 clockContainer" >
+
+  <div class="card border-dark w100 my-2 locationContainer">
+    <div class="text-center bg-cardtitle pt-2">
+      <h4>Location</h4>
+    </div>
+
+    <div class="card-body w100">
+      <div class="column w40">
+        <div  align="center">
+          <mat-form-field>
+              <mat-label>City</mat-label>
+              <input matInput placeholder="City name" [(ngModel)]="cityName" (keydown.enter)="searchCity()">
+          </mat-form-field>
+          <button mat-mini-fab color="primary" (click)="searchCity()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+        <div class="mx-5" *ngIf="location != undefined">
+          <div>
+            <br>Location: <b class="text-primary">{{location.properties.name}}</b>
+            <br>Region: <b>{{location.properties.region}}</b>
+            <br>Macro Region: <b>{{location.properties.macroregion}}</b>
+            <br>Country: <b>{{location.properties.country}}</b>
+            <br>Continent: <b>{{location.properties.continent}}</b>
+          </div>
+          <div class="pt-3" align="center" *ngIf="location.properties.name != configCityName">
+            <button mat-mini-fab color="primary" (click)="saveLocation()">
+              <mat-icon>publish</mat-icon>
+            </button><br>Apply
+          </div>
+        </div>
+      </div>
+      <div class="column w60">
+        <div class="row">
+          <mat-form-field style="width: 300px">
+              <mat-label>GeocodeAPI</mat-label>
+              <input matInput placeholder="geocodeapi.io" [(ngModel)]="geocodeAPI" >
+          </mat-form-field>
+          <button mat-mini-fab color="primary" (click)="saveGeocodeApi()" *ngIf="geocodeAPI != configGeocodeAPI">
+              <mat-icon>publish</mat-icon>
+          </button>
+        </div>
+        <div id="cityMap" class="row"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card border-dark w100 my-2 locationContainer">
+    <div class="text-center bg-cardtitle pt-2">
+      <h4>Weather</h4>
+    </div>
+
+    <div class="card-body w100">
+      {{weatherReport.current | json}}
+    </div>
+  </div>
+
+</div>
