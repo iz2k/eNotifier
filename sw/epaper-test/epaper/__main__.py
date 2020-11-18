@@ -37,10 +37,8 @@ def main(argv):
         run=True
 
         while(run):
-            run=False
-            opt='5'
             menu()
-            #opt=input('Select option: ')
+            opt=input('Select option: ')
             if (opt == '1'):
                 epd.clear()
             if (opt == '2'):
