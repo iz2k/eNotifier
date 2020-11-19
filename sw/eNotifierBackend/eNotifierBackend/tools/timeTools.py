@@ -11,11 +11,15 @@ def getTimeZoneAwareNow(timezone):
     t_norm = timezone.normalize(t_loc)
     return t_norm
 
+
+def getNow():
+    timezone = get_localzone()
+    return getTimeZoneAwareNow(timezone)
+
 def getDateTime():
     timezone = get_localzone()
     now = getTimeZoneAwareNow(timezone)
     return {'year': now.year,
-            'month': now.month,
             'month': now.month,
             'day': now.day,
             'hour': now.hour,

@@ -5,3 +5,4 @@ eventlet
 babel
 smbus2
 termcolor
+adafruit-circuitpython-sgp30

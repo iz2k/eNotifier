@@ -2,7 +2,9 @@
 import argparse
 import time
 
+from eNotifierBackend.bme680.simpleBme680 import SimpleBME680
 from eNotifierBackend.osInfo.osInfoThread import osInfoThread
+from eNotifierBackend.sgp30.simpleSgp30 import SimpleSGP30
 from eNotifierBackend.weatherStation.weatherStationThread import WeatherStationThread
 from eNotifierBackend.webServer.webServer import webServerThread
 
@@ -29,12 +31,14 @@ def main():
     try:
         # Start threads
         osInfoTh.start()
+        weatherStationThread.start()
         webserverTh.start(port=args.port, host='0.0.0.0', debug=False, use_reloader=False)
 
         webserverTh.join()
 
         # When server ends, stop threads
         osInfoTh.stop()
+        weatherStationThread.stop()
 
         # Print Goodby msg
         print('Exiting R102-DB-CTL...')
@@ -42,6 +46,7 @@ def main():
     except KeyboardInterrupt:
         # Stop threads
         osInfoTh.stop()
+        weatherStationThread.stop()
 
 
 # If executed as main, call main

@@ -3,14 +3,21 @@ from datetime import timedelta
 from queue import Queue
 from threading import Thread
 
-from eNotifierBackend.tools.timeTools import getTimeZoneAwareNow
+from eNotifierBackend.tools.timeTools import getTimeZoneAwareNow, getNow
 from eNotifierBackend.weatherStation.weatherStation import WeatherStation
 
 
 class WeatherStationThread(Thread):
 
     queue = Queue()
-    weatherStation = WeatherStation()
+    weatherStation = None
+
+    def __init__(self):
+        Thread.__init__(self)
+        self.weatherStation = WeatherStation()
+
+    def start(self):
+        Thread.start(self)
 
     def stop(self):
         if self.is_alive():
@@ -20,8 +27,9 @@ class WeatherStationThread(Thread):
 
     def run(self):
 
-        self.report = self.weatherStation.updateWeatherReport()
-        last_update = getTimeZoneAwareNow(self.clock.timezone)
+        interval_minutes = 1
+
+        last_update = getNow() - timedelta(minutes=interval_minutes)
 
         # Main loop
         run_app=True
@@ -32,11 +40,12 @@ class WeatherStationThread(Thread):
                 if db_os_q_msg == 'quit':
                     run_app=False
 
-            now = getTimeZoneAwareNow(self.clock.timezone)
-            next_update = last_update + timedelta(minutes=1)
+            now = getNow()
+            next_update = last_update + timedelta(minutes=interval_minutes)
             if now > next_update:
                 last_update = now
-                self.report = self.weatherStation.updateWeatherReport()
+                self.weatherStation.updateWeatherReport()
+                self.weatherStation.updateSensorReport()
                 self.weatherStation.updateEpd()
 
             time.sleep(1)
