@@ -26,6 +26,11 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { WeatherCurrentComponent } from './weather/weather-current/weather-current.component';
 import { HomeCurrentComponent } from './home-current/home-current.component';
+import { HistoricComponent } from './historic/historic.component';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {ChartsModule} from 'ng2-charts';
+import 'hammerjs';
+import 'chartjs-plugin-zoom';
 
 
 @NgModule({
@@ -36,7 +41,8 @@ import { HomeCurrentComponent } from './home-current/home-current.component';
     WeatherComponent,
     DashboardComponent,
     WeatherCurrentComponent,
-    HomeCurrentComponent
+    HomeCurrentComponent,
+    HistoricComponent
   ],
   imports: [
     BrowserModule,
@@ -55,9 +61,11 @@ import { HomeCurrentComponent } from './home-current/home-current.component';
     MatCheckboxModule,
     MatSlideToggleModule,
     MatIconModule,
+    MatButtonToggleModule,
     ReactiveFormsModule,
     MomentTimezonePickerModule,
-    FormsModule
+    FormsModule,
+    ChartsModule
   ],
   providers: [BackendService],
   bootstrap: [AppComponent]

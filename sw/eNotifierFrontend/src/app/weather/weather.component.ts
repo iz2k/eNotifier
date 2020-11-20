@@ -16,7 +16,7 @@ import {WeatherCurrentComponent} from './weather-current/weather-current.compone
 })
 export class WeatherComponent implements OnInit {
 
-  cityName: any;
+  cityName = '';
   cityAlias: any;
   geocodeAPI: any;
   geocodeResult: any;
@@ -48,8 +48,6 @@ export class WeatherComponent implements OnInit {
       })
     });
     });
-    this.weatherCurrent.ngOnInit();
-
   }
 
   parseWeatherConfig(json): void {

@@ -10,7 +10,9 @@ from eNotifierBackend.weatherStation.weatherStation import WeatherStation
 
 def defineDataBaseRoutes(app : Flask, sio : SocketIO, dbCtl : dbController):
 
-    @app.route('/get-measurements', methods=['GET'])
+    @app.route('/get-measurements', methods=['POST'])
     def getMeasurements():
-        measurements = dbCtl.load(Measurement).all()
+        content = flask_request.get_json(silent=True)
+        print(content)
+        measurements = dbCtl.loadMeasurements(content['startDate'], content['stopDate']).all()
         return prettyJson(measurements)

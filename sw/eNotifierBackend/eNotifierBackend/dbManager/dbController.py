@@ -40,6 +40,19 @@ class dbController:
         tStart = datetime.now()
         session = self.sessionmaker()
         result = session.query(table).options(selectinload('*'))
+
+        session.close()
+        tStop = datetime.now()
+        print('\t> Load time: ' + str(tStop - tStart))
+        return result
+
+    def loadMeasurements(self, dStart, dStop):
+        tStart = datetime.now()
+        session = self.sessionmaker()
+        result = session.query(Measurement).options(selectinload('*')).\
+            filter(Measurement.datetime <= dStop).\
+            filter(Measurement.datetime >= dStart)
+
         session.close()
         tStop = datetime.now()
         print('\t> Load time: ' + str(tStop - tStart))

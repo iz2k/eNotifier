@@ -1,0 +1,141 @@
+<div class="container w100 clockContainer" >
+  <div class="card border-dark w100 my-2 locationContainer">
+    <div class="text-center bg-cardtitle pt-2">
+      <h4>Historical Data</h4>
+    </div>
+
+    <div class="card-body w100">
+      <div class="column w40">
+        <mat-form-field class="datepicker">
+          <input matInput
+                 [matDatepicker]="pickerStart"
+                 placeholder="Start Date"
+                 [(ngModel)]="dateStart">
+          <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+          <mat-datepicker #pickerStart></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="column w40">
+        <mat-form-field class="datepicker">
+          <input matInput
+                 [matDatepicker]="pickerStop"
+                 placeholder="Stop Date"
+                 [(ngModel)]="dateStop">
+          <mat-datepicker-toggle matSuffix [for]="pickerStop"></mat-datepicker-toggle>
+          <mat-datepicker #pickerStop></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="column w20">
+        <button mat-mini-fab color="primary" (click)="updateData()" class="mx-2">
+          <mat-icon>search</mat-icon>
+        </button>
+        <mat-button-toggle-group [(ngModel)]="viewToggle">
+          <mat-button-toggle value="table" aria-label="Table">
+            <mat-icon>toc</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="chart" aria-label="Chart">
+            <mat-icon>insights</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+
+
+      <div class="column card-body" *ngIf="historicData != undefined && viewToggle=='chart'">
+        <div class="row text-center bg-cardtitle m-1">
+          <div class="column w10"> </div>
+          <div class="column w80 mt-1">
+            <h4>Home</h4>
+          </div>
+          <div class="column w10 mt-1 text-right pr-1"><img class="rstzoom hover" src="assets/img/reset-zoom.png" (click)="resetZoom(0)"></div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas baseChart
+              [datasets]="ChartDataHome"
+              [options]="ChartOptions"
+              [colors]="ChartColors"
+              [legend]="ChartLegendTrue"
+              [chartType]="ChartTypeLine"
+              [plugins]="ChartPlugins">
+          </canvas>
+        </div>
+
+        <div class="row text-center bg-cardtitle m-1">
+          <div class="column w10"> </div>
+          <div class="column w80 mt-1">
+            <h4>City</h4>
+          </div>
+          <div class="column w10 mt-1 text-right pr-1"><img class="rstzoom hover" src="assets/img/reset-zoom.png" (click)="resetZoom(1)"></div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas baseChart
+              [datasets]="ChartDataCity"
+              [options]="ChartOptions"
+              [colors]="ChartColors"
+              [legend]="ChartLegendTrue"
+              [chartType]="ChartTypeLine"
+              [plugins]="ChartPlugins">
+          </canvas>
+        </div>
+      </div>
+
+    <table *ngIf="historicData != undefined && viewToggle=='table'" class="table table-hover table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th rowspan="3">Date</th>
+        <th colspan="6">Home</th>
+        <th colspan="6">City</th>
+      </tr>
+      <tr>
+        <th>Temp</th>
+        <th>Hum</th>
+        <th>Pres</th>
+        <th>eCO2</th>
+        <th>TVOC</th>
+        <th>rGas</th>
+        <th>Temp</th>
+        <th>Hum</th>
+        <th>Pres</th>
+        <th>UV</th>
+        <th>Wind</th>
+        <th>POP</th>
+      </tr>
+      <tr>
+        <th>[ºC]</th>
+        <th>[%]</th>
+        <th>[mb]</th>
+        <th>[ppm]</th>
+        <th>[ppb]</th>
+        <th>[Ohm]</th>
+        <th>[ºC]</th>
+        <th>[%]</th>
+        <th>[mb]</th>
+        <th>[uvi]</th>
+        <th>[km/h]</th>
+        <th>[%]</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor= "let meas of historicData">
+        <td>{{ meas.datetime }}</td>
+        <td>{{ meas.homeMeas.temperature }}</td>
+        <td>{{ meas.homeMeas.humidity }}</td>
+        <td>{{ meas.homeMeas.pressure }}</td>
+        <td>{{ meas.homeMeas.eco2 }}</td>
+        <td>{{ meas.homeMeas.tvoc }}</td>
+        <td>{{ (meas.homeMeas.gas_resistance).toFixed(0) }}</td>
+        <td>{{ meas.cityMeas.temperature }}</td>
+        <td>{{ meas.cityMeas.humidity }}</td>
+        <td>{{ meas.cityMeas.pressure }}</td>
+        <td>{{ meas.cityMeas.uvi }}</td>
+        <td>{{ (meas.cityMeas.wind_speed * 3.6).toFixed(0) }}</td>
+        <td>{{ (meas.cityMeas.pop * 100).toFixed(0)}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  </div>
+</div>
+
+

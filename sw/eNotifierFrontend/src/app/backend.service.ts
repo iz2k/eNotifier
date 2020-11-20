@@ -64,4 +64,12 @@ export class BackendService extends Socket {
     return this.http.get<any>(this.urlEndPoint + '/get-home');
   }
 
+  getMeasurements(filter): Observable<any> {
+    return this.http.post<any>(this.urlEndPoint + '/get-measurements', filter,
+      {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+        })
+      });
+  }
 }
