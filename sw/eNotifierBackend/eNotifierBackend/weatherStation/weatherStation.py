@@ -26,16 +26,23 @@ class WeatherStation:
         self.printConfig()
         self.epd = epdCtl()
         self.bme = SimpleBME680()
-        self.sgp = SimpleSGP30()
+        self.sgp = SimpleSGP30([int(self.config['baselineEco2']), int(self.config['baselineTvoc'])])
         self.dbctl = dbctl
 
     def saveConfig(self):
-        writeJsonFile('cfgWeather.json', self.config)
+        writeJsonFile('cfgWeatherStation.json', self.config)
 
     def loadConfig(self):
-        self.config = readJsonFile('cfgWeather.json')
+        self.config = readJsonFile('cfgWeatherStation.json')
         if self.config == {}:
             self.createDefaultConfig()
+
+    def reloadConfig(self):
+        self.loadConfig()
+        self.printConfig()
+        self.sgp.resetDevice()
+        self.sgp.initConfig([int(self.config['baselineEco2']), int(self.config['baselineTvoc'])])
+
 
     def printConfig(self):
         print('Weather Station Config:')
@@ -48,7 +55,9 @@ class WeatherStation:
             'location': '',
             'cityAlias': '',
             'longitude': 0,
-            'latitude': 0
+            'latitude': 0,
+            'baselineEco2': 34274,
+            'baselineTvoc': 34723
                        }
         self.saveConfig()
 
@@ -86,7 +95,6 @@ class WeatherStation:
         self.sensorReport = {}
         bmedata = {}
         while bmedata == {}:
-            print('getting bme data')
             bmedata = self.bme.getSensorData()
 
         for parameter in bmedata:

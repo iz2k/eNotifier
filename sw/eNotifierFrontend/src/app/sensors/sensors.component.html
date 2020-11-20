@@ -1,0 +1,67 @@
+<div class="container w100 clockContainer" >
+
+  <div class="card border-dark w100 my-2 locationContainer">
+    <div class="text-center bg-cardtitle pt-2">
+      <h4>Calibration</h4>
+    </div>
+
+    <div class="card-body w100">
+      <div class="column w40">
+        <div class="pt-5 mx-5" *ngIf="storedBaselineEco2 != undefined">
+            <mat-form-field>
+                <mat-label>Stored Baseline eCO2</mat-label>
+                <input matInput placeholder="City Alias" [(ngModel)]="storedBaselineEco2">
+            </mat-form-field>
+        </div>
+        <div class="pt-5 mx-5" *ngIf="storedBaselineEco2 != undefined">
+            <mat-form-field>
+                <mat-label>Stored Baseline TVOC</mat-label>
+                <input matInput placeholder="City Alias" [(ngModel)]="storedBaselineTvoc">
+            </mat-form-field>
+          </div>
+      </div>
+
+      <div class="column w60">
+        <div class="column w50">
+          <div class="pt-5 mx-5" *ngIf="storedBaselineEco2 != undefined">
+              <mat-form-field>
+                  <mat-label>Current Baseline eCO2</mat-label>
+                  <input matInput placeholder="City Alias" [(ngModel)]="currentBaselineEco2">
+              </mat-form-field>
+          </div>
+          <div class="pt-5 mx-5" *ngIf="storedBaselineEco2 != undefined">
+              <mat-form-field>
+                  <mat-label>Current Baseline TVOC</mat-label>
+                  <input matInput placeholder="City Alias" [(ngModel)]="currentBaselineTvoc">
+              </mat-form-field>
+            </div>
+        </div>
+        <div class="column w50">
+          <div class="pt-5 mx-5" *ngIf="storedBaselineEco2 != undefined">
+              <button mat-mini-fab color="primary" (click)="triggerCalibration()">
+                <mat-icon>settings</mat-icon>
+              </button> Start calibration
+          </div>
+          <div class="pt-5 mx-5" *ngIf="storedBaselineEco2 != undefined">
+              <button mat-mini-fab color="primary" (click)="saveBaselines()">
+                <mat-icon>publish</mat-icon>
+              </button> Update Stored Baselines
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="card border-dark w100 my-2 locationContainer">
+    <div class="text-center bg-cardtitle pt-2">
+      <h4>Home Sensors</h4>
+    </div>
+
+    <div class="card-body w100">
+      <app-home-current></app-home-current>
+    </div>
+  </div>
+
+</div>

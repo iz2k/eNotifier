@@ -35,3 +35,12 @@ def defineWeatherStationRoutes(app : Flask, sio : SocketIO, weather : WeatherSta
     @app.route('/get-home', methods=['GET'])
     def getHome():
         return prettyJson(weather.sensorReport)
+
+    @app.route('/reset-baseline', methods=['GET'])
+    def resetBaseline():
+        return prettyJson(weather.sgp.resetBaseline())
+
+    @app.route('/reload-sensors', methods=['GET'])
+    def reloadSensors():
+        weather.reloadConfig()
+        return prettyJson({'status':'Success'})

@@ -31,6 +31,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {ChartsModule} from 'ng2-charts';
 import 'hammerjs';
 import 'chartjs-plugin-zoom';
+import { SensorsComponent } from './sensors/sensors.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import 'chartjs-plugin-zoom';
     DashboardComponent,
     WeatherCurrentComponent,
     HomeCurrentComponent,
-    HistoricComponent
+    HistoricComponent,
+    SensorsComponent
   ],
   imports: [
     BrowserModule,

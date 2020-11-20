@@ -47,14 +47,15 @@ class WeatherStationThread(Thread):
                 if db_os_q_msg == 'quit':
                     run_app=False
 
+            self.weatherStation.updateSensorReport()
+            self.emit()
+
             now = getNow()
             next_update = last_update + timedelta(minutes=interval_minutes)
             if now > next_update:
                 last_update = now
                 self.weatherStation.updateWeatherReport()
-                self.weatherStation.updateSensorReport()
                 self.weatherStation.insertToDb()
-                self.emit()
                 self.weatherStation.updateEpd()
 
             time.sleep(1)

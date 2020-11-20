@@ -72,4 +72,12 @@ export class BackendService extends Socket {
         })
       });
   }
+
+  resetBaseline(): Observable<any> {
+    return this.http.get<any>(this.urlEndPoint + '/reset-baseline');
+  }
+
+  reloadSensors(): Observable<any> {
+    return this.http.get<any>(this.urlEndPoint + '/reload-sensors');
+  }
 }
