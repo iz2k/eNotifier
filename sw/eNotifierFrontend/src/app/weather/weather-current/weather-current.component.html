@@ -1,15 +1,39 @@
-<div class="column w30">
-  <img src="{{weatherIconUrl}}">
+<div style="height: 192px">
+
+  <div class="column w30 align-items-center h-100">
+    <img src="{{weatherIconUrl}}">
+  </div>
+  <div class="column w70 align-items-center h-100">
+    <div class="column w30 h-100">
+      <div class="h-50">
+        <img src="assets/img/thermo.png">
+        {{weatherReport['current']['temp']}} ºC
+      </div>
+      <div class="h-50">
+        <img src="assets/img/pressure.png">
+      {{weatherReport['current']['pressure']}} mbar
+      </div>
+    </div>
+    <div class="column w30 h-100">
+      <div class="h-50">
+        <img src="assets/img/hygro.png">
+        {{weatherReport['current']['humidity']}} %
+      </div>
+      <div class="h-50">
+        <img src="assets/img/sunbath.png">
+      {{weatherReport['current']['uvi']}} UV
+      </div>
+    </div>
+    <div class="column w30 h-100">
+      <div class="h-50">
+        <img src="assets/img/wind.png">
+        {{(weatherReport['current']['wind_speed'] * 3.6).toFixed(2)}} km/h
+      </div>
+      <div class="h-50">
+        <img src="assets/img/rain.png">
+      {{weatherReport['hourly'][0]['pop'] * 100}} %
+      </div>
+    </div>
+  </div>
+
 </div>
-<div class="column w70" style="height: 300px">
-  <div class="column w30 h-100 test">
-    a
-  </div>
-  <div class="column w30 h-100 test">
-    b
-  </div>
-  <div class="column w30 h-100 test">
-    c
-  </div>
-</div>
-{{weatherReport.current | json}}
