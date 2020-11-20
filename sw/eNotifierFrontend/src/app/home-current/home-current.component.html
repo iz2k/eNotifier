@@ -16,16 +16,16 @@
     </div>
     <div class="column w50">
       <div class="h-auto">
-        <img src="assets/img/air.png">
-        eCO2 {{homeReport['eCO2']}} ppm
+        <img src="assets/img/co2.png" width="64" height="64">
+        {{homeReport['eCO2']}} ppm
+      </div>
+      <div class="h-auto">
+        <img src="assets/img/tvoc.svg" width="64" height="64">
+        {{homeReport['TVOC']}} ppb
       </div>
       <div class="h-auto">
         <img src="assets/img/air.png">
-        TVOC {{homeReport['TVOC']}} ppb
-      </div>
-      <div class="h-auto">
-        <img src="assets/img/air.png">
-        R {{(homeReport['gas_resistance']).toFixed(0)}} ppb
+        {{(homeReport['gas_resistance']).toFixed(0)}}
       </div>
     </div>
   </div>
