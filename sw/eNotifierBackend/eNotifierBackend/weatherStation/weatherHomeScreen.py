@@ -10,6 +10,7 @@ def weatherHomeScreen(epd, weatherReport, sensorReport):
     print('Updating HomeScreen')
     picdir = 'pic'
     font48 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 48)
+    font36 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 36)
     font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
 
     imageBlack = Image.new('1', (epd.SCREEN_WIDTH, epd.SCREEN_HEIGHT), 255)  # 255: clear the frame
@@ -23,19 +24,22 @@ def weatherHomeScreen(epd, weatherReport, sensorReport):
 
     imageBlack.paste(Image.open(os.path.join(picdir, 'thermo.png'))
                      , (50, 130))
-    drawRed.text((130, 138), '25.6ºC', font=font48, fill=0)
+    drawRed.text((130, 138), str(sensorReport['temperature']) + 'ºC', font=font48, fill=0)
 
     imageBlack.paste(Image.open(os.path.join(picdir, 'hygro.png'))
                      , (50, 210))
-    drawRed.text((130, 218), '58%', font=font48, fill=0)
+    drawRed.text((130, 218), str(round(sensorReport['humidity'], 1)) + '%', font=font48, fill=0)
 
     imageBlack.paste(Image.open(os.path.join(picdir, 'pressure.png'))
                      , (50, 290))
-    drawRed.text((130, 298), '1002mb', font=font48, fill=0)
+    drawRed.text((130, 298), str(round(sensorReport['pressure'])) + 'mb', font=font48, fill=0)
 
     imageBlack.paste(Image.open(os.path.join(picdir, 'air.png'))
-                     , (50, 370))
-    drawRed.text((130, 378), '32', font=font48, fill=0)
+                     , (50, 387))
+    drawBlack.text((130, 385), 'eCO2', font=font24, fill=0)
+    drawRed.text((200, 375), str(round(sensorReport['eCO2'])) + 'ppm', font=font36, fill=0)
+    drawBlack.text((130, 420), 'TVOC', font=font24, fill=0)
+    drawRed.text((200, 418), str(round(sensorReport['TVOC'])) + 'ppb', font=font36, fill=0)
 
     imageBlack.paste(Image.open(os.path.join(picdir, 'city.png'))
                      , (700, 30))
@@ -78,7 +82,7 @@ def weatherHomeScreen(epd, weatherReport, sensorReport):
     drawBlack.polygon([(490, 440), (490, 480), (460, 480)], fill=0)
     drawRed.text((500, 445), 'Azken neurketa:', font=font24, fill=0)
     date = getDateTime()
-    date_String = str(date['hour']) + ':' + str(date['minute'])
+    date_String = str(date['hour']) + ':' + str(date['minute']).zfill(2)
     drawBlack.text((700, 445), date_String, font=font24, fill=1)
 
     epd.display(imageBlack, imageRed)

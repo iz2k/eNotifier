@@ -80,7 +80,11 @@ class WeatherStation:
 
     def updateSensorReport(self):
         self.sensorReport = {}
-        bmedata = self.bme.getSensorData()
+        bmedata = {}
+        while bmedata == {}:
+            print('getting bme data')
+            bmedata = self.bme.getSensorData()
+
         for parameter in bmedata:
             self.sensorReport[parameter] = bmedata[parameter]
         sgpdata = self.sgp.getSensorData()

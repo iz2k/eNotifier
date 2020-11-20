@@ -27,7 +27,7 @@ class WeatherStationThread(Thread):
 
     def run(self):
 
-        interval_minutes = 1
+        interval_minutes = 5
 
         last_update = getNow() - timedelta(minutes=interval_minutes)
 
