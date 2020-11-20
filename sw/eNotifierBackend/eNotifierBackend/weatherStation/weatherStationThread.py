@@ -3,7 +3,8 @@ from datetime import timedelta
 from queue import Queue
 from threading import Thread
 
-from eNotifierBackend.tools.timeTools import getTimeZoneAwareNow, getNow
+from eNotifierBackend.dbManager.dbController import dbController
+from eNotifierBackend.tools.timeTools import getNow
 from eNotifierBackend.weatherStation.weatherStation import WeatherStation
 
 
@@ -12,9 +13,9 @@ class WeatherStationThread(Thread):
     queue = Queue()
     weatherStation = None
 
-    def __init__(self):
+    def __init__(self, dbCtl : dbController):
         Thread.__init__(self)
-        self.weatherStation = WeatherStation()
+        self.weatherStation = WeatherStation(dbCtl)
 
     def start(self):
         Thread.start(self)
@@ -46,6 +47,7 @@ class WeatherStationThread(Thread):
                 last_update = now
                 self.weatherStation.updateWeatherReport()
                 self.weatherStation.updateSensorReport()
+                self.weatherStation.insertToDb()
                 self.weatherStation.updateEpd()
 
             time.sleep(1)

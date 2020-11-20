@@ -3,6 +3,7 @@ import argparse
 import time
 
 from eNotifierBackend.bme680.simpleBme680 import SimpleBME680
+from eNotifierBackend.dbManager.dbController import dbController
 from eNotifierBackend.osInfo.osInfoThread import osInfoThread
 from eNotifierBackend.sgp30.simpleSgp30 import SimpleSGP30
 from eNotifierBackend.weatherStation.weatherStationThread import WeatherStationThread
@@ -18,10 +19,12 @@ def main():
 
     args = parser.parse_args()
 
+    dbCtl = dbController()
+
     # Define threads
     webserverTh = webServerThread(log=False)
     osInfoTh = osInfoThread()
-    weatherStationThread = WeatherStationThread()
+    weatherStationThread = WeatherStationThread(dbCtl=dbCtl)
 
     webserverTh.define_webroutes(weatherStationThread.weatherStation)
 

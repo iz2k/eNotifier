@@ -1,7 +1,10 @@
 import json
+from datetime import datetime
 from urllib import request
 
 from eNotifierBackend.bme680.simpleBme680 import SimpleBME680
+from eNotifierBackend.dbManager import Measurement, CityMeas, HomeMeas
+from eNotifierBackend.dbManager.dbController import dbController
 from eNotifierBackend.epd75bv2.epdCtl import epdCtl
 from eNotifierBackend.sgp30.simpleSgp30 import SimpleSGP30
 from eNotifierBackend.tools.jsonTools import writeJsonFile, readJsonFile, prettyJson
@@ -18,12 +21,13 @@ class WeatherStation:
     sgp = None
     epd = None
 
-    def __init__(self):
+    def __init__(self, dbctl : dbController):
         self.loadConfig()
         self.printConfig()
         self.epd = epdCtl()
         self.bme = SimpleBME680()
         self.sgp = SimpleSGP30()
+        self.dbctl = dbctl
 
     def saveConfig(self):
         writeJsonFile('cfgWeather.json', self.config)
@@ -91,3 +95,28 @@ class WeatherStation:
         for parameter in sgpdata:
             self.sensorReport[parameter] = sgpdata[parameter]
         print(self.sensorReport)
+
+    def insertToDb(self):
+        myMeas = Measurement(
+            datetime=datetime.now(),
+            cityMeas=CityMeas(
+                location=self.config['location'],
+                temperature=self.weatherReport['current']['temp'],
+                pressure=self.weatherReport['current']['pressure'],
+                humidity=self.weatherReport['current']['humidity'],
+                uvi=self.weatherReport['current']['uvi'],
+                wind_speed=self.weatherReport['current']['wind_speed'],
+                wind_degree=self.weatherReport['current']['wind_deg'],
+                pop=self.weatherReport['hourly'][0]['pop']
+            ),
+            homeMeas=HomeMeas(
+                temperature=self.sensorReport['temperature'],
+                pressure=self.sensorReport['pressure'],
+                humidity=self.sensorReport['humidity'],
+                gas_resistance=self.sensorReport['gas_resistance'],
+                eco2=self.sensorReport['eCO2'],
+                tvoc=self.sensorReport['TVOC']
+            )
+        )
+
+        self.dbctl.insert(myMeas)
