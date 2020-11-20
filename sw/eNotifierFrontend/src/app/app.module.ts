@@ -25,6 +25,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { WeatherCurrentComponent } from './weather/weather-current/weather-current.component';
+import { HomeCurrentComponent } from './home-current/home-current.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { WeatherCurrentComponent } from './weather/weather-current/weather-curre
     FooterComponent,
     WeatherComponent,
     DashboardComponent,
-    WeatherCurrentComponent
+    WeatherCurrentComponent,
+    HomeCurrentComponent
   ],
   imports: [
     BrowserModule,

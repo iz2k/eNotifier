@@ -24,25 +24,26 @@ def main():
     # Define threads
     webserverTh = webServerThread(log=False)
     osInfoTh = osInfoThread()
-    weatherStationThread = WeatherStationThread(dbCtl=dbCtl)
+    weatherStationTh = WeatherStationThread(dbCtl=dbCtl)
 
-    webserverTh.define_webroutes(weather = weatherStationThread.weatherStation,
+    webserverTh.define_webroutes(weather = weatherStationTh.weatherStation,
                                  dbCtl=dbCtl)
 
     # Pass SIO to threads
     osInfoTh.set_sio(webserverTh.sio)
+    weatherStationTh.set_sio(webserverTh.sio)
 
     try:
         # Start threads
         osInfoTh.start()
-        weatherStationThread.start()
+        weatherStationTh.start()
         webserverTh.start(port=args.port, host='0.0.0.0', debug=False, use_reloader=False)
 
         webserverTh.join()
 
         # When server ends, stop threads
         osInfoTh.stop()
-        weatherStationThread.stop()
+        weatherStationTh.stop()
 
         # Print Goodby msg
         print('Exiting R102-DB-CTL...')
@@ -50,7 +51,7 @@ def main():
     except KeyboardInterrupt:
         # Stop threads
         osInfoTh.stop()
-        weatherStationThread.stop()
+        weatherStationTh.stop()
 
 
 # If executed as main, call main

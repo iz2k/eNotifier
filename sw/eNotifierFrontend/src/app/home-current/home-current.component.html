@@ -1,0 +1,33 @@
+<div style="height: 192px" *ngIf="homeReport != undefined">
+  <div class="column w100 align-items-center h-100">
+    <div class="column w50">
+      <div class="h-auto">
+        <img src="assets/img/thermo.png">
+        {{homeReport['temperature']}} ºC
+      </div>
+      <div class="h-auto">
+        <img src="assets/img/pressure.png">
+        {{homeReport['pressure']}} mbar
+      </div>
+      <div class="h-auto">
+        <img src="assets/img/hygro.png">
+        {{homeReport['humidity']}} %
+      </div>
+    </div>
+    <div class="column w50">
+      <div class="h-auto">
+        <img src="assets/img/air.png">
+        eCO2 {{homeReport['eCO2']}} ppm
+      </div>
+      <div class="h-auto">
+        <img src="assets/img/air.png">
+        TVOC {{homeReport['TVOC']}} ppb
+      </div>
+      <div class="h-auto">
+        <img src="assets/img/air.png">
+        R {{(homeReport['gas_resistance']).toFixed(0)}} ppb
+      </div>
+    </div>
+  </div>
+
+</div>

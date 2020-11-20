@@ -3,7 +3,10 @@ from datetime import timedelta
 from queue import Queue
 from threading import Thread
 
+from flask_socketio import SocketIO
+
 from eNotifierBackend.dbManager.dbController import dbController
+from eNotifierBackend.tools.jsonTools import prettyJson
 from eNotifierBackend.tools.timeTools import getNow
 from eNotifierBackend.weatherStation.weatherStation import WeatherStation
 
@@ -25,6 +28,9 @@ class WeatherStationThread(Thread):
             self.queue.put(['quit', 0])
             self.join()
             print('thread exit cleanly')
+
+    def set_sio(self, sio : SocketIO):
+        self.sio = sio
 
     def run(self):
 
@@ -48,6 +54,10 @@ class WeatherStationThread(Thread):
                 self.weatherStation.updateWeatherReport()
                 self.weatherStation.updateSensorReport()
                 self.weatherStation.insertToDb()
+                self.emit()
                 self.weatherStation.updateEpd()
 
             time.sleep(1)
+
+    def emit(self):
+        self.sio.emit('homeData', prettyJson(self.weatherStation.sensorReport))

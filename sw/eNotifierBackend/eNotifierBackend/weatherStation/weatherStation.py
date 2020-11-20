@@ -80,7 +80,7 @@ class WeatherStation:
         print(self.weatherReport)
 
     def updateEpd(self):
-        weatherHomeScreen(self.epd, self.weatherReport, self.sensorReport)
+        weatherHomeScreen(self.epd, self.weatherReport, self.sensorReport, self.config)
 
     def updateSensorReport(self):
         self.sensorReport = {}

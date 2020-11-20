@@ -6,7 +6,7 @@ from eNotifierBackend.tools.imgTools import reseizeImage, rotateImage
 from eNotifierBackend.tools.timeTools import getDateTime
 
 
-def weatherHomeScreen(epd, weatherReport, sensorReport):
+def weatherHomeScreen(epd, weatherReport, sensorReport, config):
     print('Updating HomeScreen')
     picdir = 'pic'
     font48 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 48)
@@ -43,7 +43,7 @@ def weatherHomeScreen(epd, weatherReport, sensorReport):
 
     imageBlack.paste(Image.open(os.path.join(picdir, 'city.png'))
                      , (700, 30))
-    drawRed.text((460, 38), 'Donostian', font=font48, fill=0)
+    drawRed.text((460, 38), config['cityAlias'], font=font48, fill=0)
 
     imageBlack.paste(Image.open(os.path.join(picdir, 'weather/' + weatherReport['current']['weather'][0]['icon'] + '.png'))
                      , (535, 120))

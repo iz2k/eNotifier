@@ -31,3 +31,7 @@ def defineWeatherStationRoutes(app : Flask, sio : SocketIO, weather : WeatherSta
     @app.route('/get-weather', methods=['GET'])
     def getWeather():
         return prettyJson(weather.weatherReport)
+
+    @app.route('/get-home', methods=['GET'])
+    def getHome():
+        return prettyJson(weather.sensorReport)
