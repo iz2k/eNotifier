@@ -4,8 +4,10 @@ from flask_cors import CORS
 from queue import Queue
 from threading import Thread
 
+from eNotifierBackend.dbManager.dbController import dbController
 from eNotifierBackend.tools.ipTools import getHostname, getIP
 from eNotifierBackend.weatherStation.weatherStation import WeatherStation
+from eNotifierBackend.webServer.routesDataBase import defineDataBaseRoutes
 from eNotifierBackend.webServer.routesInfo import defineInfoRoutes
 from eNotifierBackend.webServer.routesWeatherStation import defineWeatherStationRoutes
 
@@ -49,6 +51,7 @@ class webServerThread(Thread):
         # When server ends, reset flag
         self.isRunning = False
 
-    def define_webroutes(self, weather : WeatherStation):
+    def define_webroutes(self, weather : WeatherStation, dbCtl : dbController):
         defineInfoRoutes(self.flaskApp, self.sio)
         defineWeatherStationRoutes(self.flaskApp, self.sio, weather)
+        defineDataBaseRoutes(self.flaskApp, self.sio, dbCtl)
