@@ -48,6 +48,7 @@ class WeatherStationThread(Thread):
                     run_app=False
 
             self.weatherStation.updateSensorReport()
+            self.weatherStation.sgp.adjustRH(self.weatherStation.sensorReport['humidity'])
             self.emit()
 
             now = getNow()

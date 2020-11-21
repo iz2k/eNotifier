@@ -44,7 +44,8 @@ setup(
     url=url,
     license=license,
     packages=find_packages(exclude=('tests', 'docs')),
-    install_requires=requirements
+    install_requires=requirements,
+    package_data={'eNotifierBackend': ['pic/*', 'pic/weather/*']}
 )
 
 wheel_name = name + '-' + version + '-py3-none-any.whl'

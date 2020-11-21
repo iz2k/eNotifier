@@ -39,3 +39,13 @@ class SimpleSGP30():
         dev = I2CDevice(busio.I2C(board.SCL, board.SDA, frequency=100000), 0x00)
         dev.write(bytes(0x00))
         time.sleep(1)
+
+    def adjustRH(self, RH):
+        H = self.fakeRH2H(RH)
+        print('Adjusting IAQ with H: ' + str(H) + 'g/m3')
+        self.sgp30.set_iaq_humidity(H)
+
+    def fakeRH2H(self, RH):
+        # Assuming ~20ºC and 1000mbar
+        H = 17*RH/100 #g/m3
+        return H

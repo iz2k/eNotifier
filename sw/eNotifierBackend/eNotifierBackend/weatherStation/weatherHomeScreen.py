@@ -1,18 +1,17 @@
 import os
-
+import eNotifierBackend
 from PIL import ImageFont, Image, ImageDraw
 
 from eNotifierBackend.tools.imgTools import reseizeImage, rotateImage
 from eNotifierBackend.tools.timeTools import getDateTime
 
+picdir = os.path.join(os.path.dirname(os.path.abspath(eNotifierBackend.__file__)), 'pic')
+font48 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 48)
+font36 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 36)
+font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
 
 def weatherHomeScreen(epd, weatherReport, sensorReport, config):
     print('Updating HomeScreen')
-    picdir = 'pic'
-    font48 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 48)
-    font36 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 36)
-    font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
-
     imageBlack = Image.new('1', (epd.SCREEN_WIDTH, epd.SCREEN_HEIGHT), 255)  # 255: clear the frame
     imageRed = Image.new('1', (epd.SCREEN_WIDTH, epd.SCREEN_HEIGHT), 255)  # 255: clear the frame
     drawBlack = ImageDraw.Draw(imageBlack)
