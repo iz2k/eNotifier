@@ -10,7 +10,7 @@ from makeInstallScript import create_install_script
 ########## PACKAGE INFO ##########
 name = 'eNotifierBackend'
 description='eNotifier BackEnd SW'
-version ='1.0'
+version ='1.1'
 author='iz2k'
 author_email='ibon@zalbide.com'
 url='https://www.zalbide.com'

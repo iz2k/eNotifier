@@ -47,17 +47,23 @@ class WeatherStationThread(Thread):
                 if db_os_q_msg == 'quit':
                     run_app=False
 
-            self.weatherStation.updateSensorReport()
-            self.weatherStation.sgp.adjustRH(self.weatherStation.sensorReport['humidity'])
-            self.emit()
+            try:
+                self.weatherStation.updateSensorReport()
+                self.weatherStation.sgp.adjustRH(self.weatherStation.sensorReport['humidity'])
+                self.emit()
+            except:
+                pass
 
             now = getNow()
             next_update = last_update + timedelta(minutes=interval_minutes)
             if now > next_update:
                 last_update = now
-                self.weatherStation.updateWeatherReport()
-                self.weatherStation.insertToDb()
-                self.weatherStation.updateEpd()
+                try:
+                    self.weatherStation.updateWeatherReport()
+                    self.weatherStation.insertToDb()
+                    self.weatherStation.updateEpd()
+                except:
+                    pass
 
             time.sleep(1)
 
