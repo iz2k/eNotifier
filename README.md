@@ -54,7 +54,7 @@ Displays current weather information. Additionally, allows configuring the locat
 
 Displays historical data stored in the local DB. The data can be filtered with dates, and can be displyed in table mode or interactive graphic charts.
 
-![image](https://user-images.githubusercontent.com/57298545/99901775-8234c380-2cb9-11eb-91e7-ee788e08c486.png)
+![image](https://user-images.githubusercontent.com/57298545/100371785-94d83100-3008-11eb-8553-498f9861493d.png)
 
 
 # Installation
